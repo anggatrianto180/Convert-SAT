@@ -1,0 +1,9 @@
+body {
+    background-color: #f8f9fa; /* Warna latar belakang abu-abu muda */
+}
+.card {
+    border: none;
+}
+label {
+    font-weight: 500;
+}
