@@ -99,10 +99,12 @@ async function handleFiles() {
 
     try {
         const settings = getSettingsFromForm();
-        const globalSuffixCounter = { current: 1 };
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
+            
+            // PERUBAHAN: Penghitung dibuat di dalam loop agar reset untuk setiap file
+            const suffixCounter = { current: 1 };
             
             try {
                 const baseIdForFile = document.getElementById(`testCaseId-${i}`).value;
@@ -118,7 +120,7 @@ async function handleFiles() {
                     continue;
                 }
                 
-                const processedData = processSingleFile(sourceData, settings, baseIdForFile, encDescriptionForFile, globalSuffixCounter);
+                const processedData = processSingleFile(sourceData, settings, baseIdForFile, encDescriptionForFile, suffixCounter);
                 
                 const newWorksheet = XLSX.utils.aoa_to_sheet(processedData);
                 applyStyling(newWorksheet, processedData);
@@ -142,6 +144,9 @@ async function handleFiles() {
         
         if (outputWorkbook.SheetNames.length === 0) {
              showNotification('Tidak ada file yang berhasil diproses. Periksa kembali semua file Anda.', 'warning');
+             processBtn.disabled = false;
+             btnText.textContent = 'Proses Data & Unduh Hasil';
+             spinner.classList.add('d-none');
              return;
         }
 
@@ -169,7 +174,7 @@ function getSettingsFromForm() {
         startDate: formatDate(document.getElementById('startDate').value),
         endDate: formatDate(document.getElementById('endDate').value),
         testMethod: "Positive",
-        testCaseStatus: "Tested",
+        testCaseStatus: "Approved",
         executionStatus: "Passed",
         testCaseType: "Functional",
         testPriority: "Medium"
@@ -177,7 +182,7 @@ function getSettingsFromForm() {
 }
 
 // Logika inti pemrosesan
-function processSingleFile(sourceData, settings, baseId, encDescription, globalSuffixCounter) {
+function processSingleFile(sourceData, settings, baseId, encDescription, suffixCounter) {
     const processedData = [];
     const header = [
         "No.", "ENC Ref. No.", "ENC Description", "Test Case ID", "Module", "Path",
@@ -208,7 +213,7 @@ function processSingleFile(sourceData, settings, baseId, encDescription, globalS
             newRow[0] = nomorUrut;
             newRow[1] = baseId;
             newRow[2] = encDescription;
-            newRow[3] = `${baseId}-${globalSuffixCounter.current}`;
+            newRow[3] = `${baseId}-${suffixCounter.current}`;
             newRow[4] = numSourceCols >= 39 ? row[38] : '';
             newRow[5] = '';
             newRow[6] = settings.testCaseType;
@@ -229,7 +234,7 @@ function processSingleFile(sourceData, settings, baseId, encDescription, globalS
             processedData.push(newRow);
             
             nomorUrut++;
-            globalSuffixCounter.current++;
+            suffixCounter.current++;
         }
         
         const stepText = (numSourceCols >= 14 && row && row[13]) ? String(row[13]).trim() : '';
