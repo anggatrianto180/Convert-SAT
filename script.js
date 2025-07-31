@@ -73,7 +73,7 @@ function formatDate(date) {
     return `${d.getDate()}-${months[d.getMonth()]}-${d.getFullYear()}`;
 }
 
-// Helper untuk membersihkan nama sheet
+// Helper untuk membersihkan nama file agar valid untuk nama sheet
 function sanitizeSheetName(fileName) {
     return fileName.replace(/[:\\/?*[\]]/g, "").substring(0, 31);
 }
@@ -102,8 +102,6 @@ async function handleFiles() {
 
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            
-            // PERUBAHAN: Penghitung dibuat di dalam loop agar reset untuk setiap file
             const suffixCounter = { current: 1 };
             
             try {
@@ -124,7 +122,10 @@ async function handleFiles() {
                 
                 const newWorksheet = XLSX.utils.aoa_to_sheet(processedData);
                 applyStyling(newWorksheet, processedData);
-                const sheetName = sanitizeSheetName(file.name);
+                
+                // === PERUBAHAN KUNCI ADA DI SINI ===
+                const sheetName = sanitizeSheetName(baseIdForFile); // Menggunakan ID Awal sebagai nama sheet
+                
                 XLSX.utils.book_append_sheet(outputWorkbook, newWorksheet, sheetName);
 
             } catch (error) {
