@@ -174,10 +174,10 @@ function getSettingsFromForm() {
         createdDate: formatDate(document.getElementById('createdDate').value),
         startDate: formatDate(document.getElementById('startDate').value),
         endDate: formatDate(document.getElementById('endDate').value),
-        testMethod: "Positive",
-        testCaseStatus: "Approved",
+        testMethod: "Manual",
+        testCaseStatus: "Tested",
         executionStatus: "Passed",
-        testCaseType: "Functional",
+        testCaseType: "Positive Test",
         testPriority: "Medium"
     };
 }
