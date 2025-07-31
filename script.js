@@ -39,13 +39,13 @@ function generateDynamicInputs() {
                 <label for="${idInputId}" class="form-label">
                     <small>ENC Ref. No.untuk File: <strong>${file.name}</strong></small>
                 </label>
-                <input type="text" class="form-control" id="${idInputId}" placeholder="Contoh: FM-IT-RAC-INI-2507-05739">
+                <input type="text" class="form-control" id="${idInputId}" placeholder="Contoh: TCK2503-1011161">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="${descInputId}" class="form-label">
                     <small>ENC Description untuk: <strong>${file.name}</strong></small>
                 </label>
-                <input type="text" class="form-control" id="${descInputId}" value="-">
+                <input type="text" class="form-control" id="${descInputId}" placeholder="Contoh: [FE][BE] Add Setting for Auto Generation of OFFICIAL NAME">
             </div>
         `;
         container.innerHTML += inputGroupHtml;
