@@ -37,7 +37,7 @@ function generateDynamicInputs() {
         const inputGroupHtml = `
             <div class="col-md-6 mb-3">
                 <label for="${idInputId}" class="form-label">
-                    <small>ID Awal untuk File: <strong>${file.name}</strong></small>
+                    <small>ENC Ref. No.untuk File: <strong>${file.name}</strong></small>
                 </label>
                 <input type="text" class="form-control" id="${idInputId}" placeholder="Contoh: FM-IT-RAC-INI-2507-05739">
             </div>
